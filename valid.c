@@ -6,7 +6,7 @@
 /*   By: ahiroko <ahiroko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 20:52:12 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/18 21:31:39 by ahiroko          ###   ########.fr       */
+/*   Updated: 2019/05/19 00:38:23 by bts              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			ft_check_n_write(int tet, char letr)
 		tet == T_VERT || tet == T_R_ED || tet == T_L_ED ||
 		tet == T_UDWN)
 	{
-		ft_putstr("Valid!\n");
+		//ft_putstr("Valid!\n");
 		if (letr == 'Z' + 1)
 		{
 			ft_putstr("error\n");
@@ -38,7 +38,7 @@ int			ft_check_n_write(int tet, char letr)
 	return (-1);
 }
 
-int			ft_tralator(char *buf, int *tet)
+int			ft_mr_translater(char *buf, int *tet, int ct2)
 {
 
 	int		ct;
@@ -50,9 +50,14 @@ int			ft_tralator(char *buf, int *tet)
 			*tet = *tet << 1;
 		else if (buf[ct] == '#')
 			*tet = (*tet << 1) | 1;
+		else
+		{
+			*tet = -1;
+			break	;
+		}
 	}
 	free(buf);
-	if (ct < 4 || ct > 4)
+	if ((ct != 4) || (ct2 == 4 && !*tet))
 		*tet = -1;
 	return (*tet);
 }
@@ -67,6 +72,7 @@ int			ft_tet_translate(int fd)
 	ct2 = 0;
 	while (get_next_line(fd, &buf))
 	{
+		++ct2;
 		if (!buf[0] && !ct2)
 		{
 			free(buf);
@@ -74,8 +80,7 @@ int			ft_tet_translate(int fd)
 		}
 		if (!buf[0])
 			break ;
-		ct2++;
-		if (ft_tralator(buf, &tet) == -1)
+		if (ft_mr_translater(buf, &tet, ct2) == -1)
 			return (-1);
 	}
 	free(buf);
@@ -105,7 +110,7 @@ int			ft_check_valid(char **argv)
 	while ((tet = ft_tet_translate(fd)) > 0)
 		if ((ft_check_n_write(tet, letr++)) < 0)
 			return (0);
-	if (tet == 0 || tet == -1)
+	if (tet == -1)
 		ft_putstr("error\n");
 	close(fd);
 	return (0);
