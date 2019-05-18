@@ -6,7 +6,7 @@
 /*   By: ahiroko <ahiroko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 20:52:12 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/18 21:21:07 by ahiroko          ###   ########.fr       */
+/*   Updated: 2019/05/18 21:31:39 by ahiroko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,23 @@ int			ft_check_n_write(int tet, char letr)
 	return (-1);
 }
 
-int			ft_tralator(char *buf)
+int			ft_tralator(char *buf, int *tet)
 {
-	int		tet;
+
 	int		ct;
 
 	ct = -1;
 	while (buf[++ct])
 	{
 		if (buf[ct] == '.')
-			tet = tet << 1;
+			*tet = *tet << 1;
 		else if (buf[ct] == '#')
-			tet = (tet << 1) | 1;
+			*tet = (*tet << 1) | 1;
 	}
 	free(buf);
 	if (ct < 4 || ct > 4)
-		tet = -1;
-	return (tet);
+		*tet = -1;
+	return (*tet);
 }
 
 int			ft_tet_translate(int fd)
@@ -75,7 +75,7 @@ int			ft_tet_translate(int fd)
 		if (!buf[0])
 			break ;
 		ct2++;
-		if ((tet = ft_tralator(buf)) == -1)
+		if (ft_tralator(buf, &tet) == -1)
 			return (-1);
 	}
 	free(buf);
