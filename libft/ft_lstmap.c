@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static void		ft_del(void *cntnt, size_t cntnt_s)
 {
