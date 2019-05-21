@@ -6,7 +6,7 @@
 /*   By: ahiroko <ahiroko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 20:52:12 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/20 16:56:34 by huller           ###   ########.fr       */
+/*   Updated: 2019/05/21 13:37:53 by huller           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,23 @@ l_tet   *scan_figs(char *str, l_tet *fgr)
 	char   **tmp;
 	char    *buf;
 
-	while (str[x])
-	{
-		while (str[x] == '.' && str[x + 1] != '#')
-			x++;
-		if (str[x] != '.' && str[x] != '\0')
-			return (-1);
-		while (str[x])
-			buf[x][y] = str[x];
-		y++;
-		free((void *)str);
-	}
-	free((void *)str);
-	if (ft_check_connections(str))
+//	while (str[x])
+//	{
+//		while (str[x] == '.' && str[x + 1] != '#')
+//			x++;
+//		if (str[x] != '.' && str[x] != '\0')
+//			return (-1);
+//		while (str[x])
+//			buf[x][y] = str[x];
+//		y++;
+//		free((void *)str);
+//	}
+//	free((void *)str);
+//	if (ft_check_connections(str))
 
 
 	return(NULL);
 }
-
-
-
-
-
-
-
 
 int     check_tets(int fd)
 {
