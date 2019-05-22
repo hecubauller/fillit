@@ -6,7 +6,7 @@
 /*   By: ahiroko <ahiroko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 20:52:19 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/21 14:07:15 by huller           ###   ########.fr       */
+/*   Updated: 2019/05/20 17:33:22 by huller           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,79 +17,37 @@
 # include "get_next_line.h"
 # include <fcntl.h>
 
-# define    ENDL '\n'
-# define    MAX_BUFF 546
+# define ENDL '\n'
+# define FIGR 21
 
-# define I_V_X "0000"
-# define I_V_X "0123"
-# define I_E_X "0123"
-# define I_E_Y "0000"
-/*	I figure values	*/
+# define ERROR -1
+# define INPUT_ERROR -2
+# define SUCCESS 1
 
-# define J_V_X "0001"
-# define J_V_y "0122"
-# define J_R_X "2012"
-# define J_R_Y "0111"
-# define J_L_X "0120"
-# define J_L_Y "0001"
-# define J_U_X "0111"
-# define J_U_Y "0012"
-/*	J figure values	*/
-
-# define L_V_X "1101"
-# define L_V_Y "0122"
-# define L_R_X "0012"
-# define L_R_Y "0111"
-# define L_L_X "0122"
-# define L_L_Y "0001"
-# define L_U_X "0100"
-# define L_U_Y "0012"
-/* 	L figure values	*/
-
-# define O_X "0101"
-# define O_Y "0111"
-/*	O figure values	*/
-
-# define S_V_X "0112"
-# define S_V_Y "1100"
-# define S_E_X "0011"
-# define S_E_Y "0112"
-/*	S figure values	*/
-
-# define T_V_X "0121"
-# define T_V_Y "0001"
-# define T_R_X "0010"
-# define T_R_Y "0112"
-# define T_L_X "1011"
-# define T_L_Y "0112"
-# define T_U_X "1012"
-# define T_U_Y "0111"
-/*	T figure values	*/
-
-# define Z_V_X "1010"
-# define Z_V_Y "0112"
-# define Z_E_X "0112"
-# define Z_E_Y "0011"
-/*	Z figure values	*/
-
-
-
-typedef struct      s_cnt
+typedef struct		s_cnt
 {
-	int             row;
-	int             col;
-}                   l_cnt;
+	int				ct;
+	int				dots;
+	int				hashs;
+	int				nw_lns;
+	int				connections;
+}					t_cnt;
 
 typedef struct		s_tet
 {
 	char			**fig;
 	char			let;
-	char             x;
-	char             y;
-	char            *next;
-}					l_tet;
+	char			x;
+	char			y;
+	struct s_tet	*prev;
+	struct s_tet	*next;
+}					t_tet;
 
-l_tet *ft_check_valid(char *argv, l_tet *fgrs);
-l_tet *ft_new_node(char letr);
+void				ft_remove_node(t_tet *fgrs);
+void				ft_get_first_figure(t_tet **fgrs);
+t_tet				*ft_new_node(t_tet *next, t_tet *prev, char letr);
+int					ft_check_valid(const char *buf);
+int					ft_reader(const char *src, t_tet **fgrs, int argc);
+char				*ft_convert(char *buf, t_tet **fgrs);
 
 #endif

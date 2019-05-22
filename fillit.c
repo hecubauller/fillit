@@ -12,45 +12,17 @@
 
 #include "fillit.h"
 
-l_tet *ft_new_node(char letr)
-{
-	l_tet *new;
-	int ct;
-
-	ct = -1;
-	if (!(new = (l_tet*)malloc(sizeof(l_tet))))
-		return (NULL);
-	if (!(new->fig = (char**)malloc(sizeof(char*) * 4)))
-	{
-		free(new);
-		return (NULL);
-	}
-	while (++ct < 4)
-		if (!(*(new->fig + ct) = (char*)malloc(sizeof(char) * 5)))
-		{
-			while (ct != -1)
-				free (new->fig[ct--]);
-			free(new);
-			return (NULL);
-		}
-	new->x = 0;
-	new->y = 0;
-	new->let = letr;
-	new->next = NULL;
-	return (new);
-}
-
 int		main(int argc, char **argv)
 {
-	l_tet *fgrs;
+	t_tet	*fgrs;
+	int		status;
 
-	if (argc != 2)
+	if ((status = ft_reader(argv[1], &fgrs, argc)) != SUCCESS)
 	{
-		ft_putstr("usage: fillit filename\n");
+		ft_putstr(status != ERROR ? "usage: fillit filename\n" : "error\n");
 		return (0);
 	}
 
-	if ((fgrs = ft_check_valid(*argv, fgrs)) == NULL)
-		ft_putstr("error\n");
+
 	return (0);
 }

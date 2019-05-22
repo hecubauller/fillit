@@ -1,95 +1,51 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   valid.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ahiroko <ahiroko@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/13 20:52:12 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/21 13:37:53 by huller           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "fillit.h"
 
-
-l_tet   *scan_figs(char *str, l_tet *fgr)
+int	ft_cntcns_counter(const char *buf, int ct)
 {
-	int
+	int connections;
 
-	char   **tmp;
-	char    *buf;
-
-//	while (str[x])
-//	{
-//		while (str[x] == '.' && str[x + 1] != '#')
-//			x++;
-//		if (str[x] != '.' && str[x] != '\0')
-//			return (-1);
-//		while (str[x])
-//			buf[x][y] = str[x];
-//		y++;
-//		free((void *)str);
-//	}
-//	free((void *)str);
-//	if (ft_check_connections(str))
-
-
-	return(NULL);
+	connections = 0;
+	if (buf[ct + 5] == '#')
+		connections++;
+	if (buf[ct - 5] == '#')
+		connections++;
+	if (buf[ct + 1] == '#')
+		connections++;
+	if (buf[ct - 1] == '#')
+		connections++;
+	return (connections);
 }
 
-int     check_tets(int fd)
+int	ft_sym_counter(const char *buf)
 {
-	l_cnt cnt;
-	char *temp;
-	cnt.row = 0;
-	cnt.col = 0;
+	t_cnt valid;
 
-	while(get_next_line(fd, &temp))
-	{
-		cnt.col = 0;
-		while (temp[cnt.col] == '.' || temp[cnt.col] == '#')
-			cnt.col++;
-		if (temp[cnt.col] != '.' && temp[cnt.col] != '#' && temp[cnt.col])
-			return (-1);
-		cnt.row++;
-		if (cnt.row == 5 && !*temp)
-			cnt.row = 0;
-		free(temp);
-		if (((cnt.col != 4) || (cnt.row >= 5)) && (*temp))
-			return (-1);
-		else if (cnt.row > 0 && !*temp)
-			return (-1);
-	}
-	free(temp);
-	return (cnt.row < 4 ? -1 : 1);
+	valid.ct = -1;
+	valid.nw_lns = 0;
+	valid.hashs = 0;
+	valid.dots = 0;
+	valid.connections = 0;
+	if (buf[0] != '.' && buf[0] != '#')
+		return (ERROR);
+	while (buf[++valid.ct])
+		if (buf[valid.ct] == '.')
+			valid.dots++;
+		else if (buf[valid.ct] == '#')
+		{
+			valid.hashs++;
+			valid.connections += ft_cntcns_counter(buf, valid.ct);
+		}
+		else if (buf[valid.ct] == '\n')
+			valid.nw_lns++;
+		else
+			return (ERROR);
+	return (valid.connections >= 6 && valid.hashs == 4
+	&& (valid.nw_lns >= 3 && valid.nw_lns <= 5) &&
+	valid.dots == 12 ? SUCCESS : ERROR);
 }
 
-int    reader(char *src, char *buf)
+int	ft_check_valid(const char *buf)
 {
-	int     fd;
-	int     cnt;
-
-	cnt = 0;
-	if ((fd = open(src, O_RDONLY)) == -1)
-		return (-1);
-	while ((read(fd, buf, MAX_BUFF)))
-		if (++cnt >= 2)
-			return (-1);
-	close(fd);
-	if ((fd = open(src, O_RDONLY)) == -1)
-		return (-1);
-	return (!*buf ? -1 : fd);
+	return (ft_sym_counter(buf) == SUCCESS ? SUCCESS : ERROR);
 }
 
-l_tet		*ft_check_valid(char *argv, l_tet *fgrs)
-{
-	int            fd;
-	static char    buf[MAX_BUFF];
-
-	if ((fd = reader(argv, buf)) < 0)
-		return (NULL);
-	if (check_tets(fd) < 0)
-		return (NULL);
-	return (scan_figs(buf, fgrs) == NULL ? NULL : fgrs);
-}
