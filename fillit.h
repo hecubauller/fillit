@@ -44,10 +44,10 @@ typedef struct		s_tet
 }					t_tet;
 
 void				ft_remove_node(t_tet **fgrs);
-void				ft_get_first_figure(t_tet **fgrs);
 t_tet				*ft_new_node(t_tet *next, t_tet *prev, char letr);
 int					ft_check_valid(const char *buf);
 int					ft_reader(const char *src, t_tet **fgrs, int argc);
+int					ft_convert(char *buf, t_tet **fgrs);
 char				*ft_solver(t_tet *fgrs);
 
 #endif

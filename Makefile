@@ -5,6 +5,7 @@ SRCS = 	fillit.c \
 		reader.c \
 		node_controls.c \
 		solver.c \
+		converter.c \
 
 OBJS = $(SRCS:.c=.o)
 

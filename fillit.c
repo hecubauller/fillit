@@ -14,9 +14,9 @@
 
 void	ft_add_ind(t_tet **fgrs)
 {
-	int i;
-	int j;
-	t_tet *tmp;
+	int		i;
+	int		j;
+	t_tet	*tmp;
 
 	tmp = NULL;
 	while (*fgrs)

@@ -12,56 +12,6 @@
 
 #include "fillit.h"
 
-static void ft_clr_buff(char *buf)
-{
-	int i;
-	int j;
-
-	i = -1;
-	j = 0;
-	while (buf[j] && buf[j] != ENDL)
-		j++;
-	while (buf[++j])
-		buf[++i] = buf[j];
-	while (buf[j])
-	{
-		buf[j] = 0;
-		j++;
-	}
-}
-
-static int	ft_convert(char *buf, t_tet **fgrs)
-{
-	int i;
-	int	k;
-	int j;
-	char *str;
-	char *test;
-
-	i = -1;
-	k = 0;
-	str = ft_memalloc(1);
-	while(++k < 5)
-	{
-		test = ft_strchrdup(buf, ENDL);
-		str = ft_strjoinfree(str, test, 1);
-		free(test);
-		ft_clr_buff(buf);
-	}
-	while (str[++i] && str[i + 1] != '#')
-		;
-	if (str[i + 1] == '#' && str[i + 5] == '#')
-		i++;
-	j = i;
-	while (str[++j]);
-	while (str[--j] != '#');
-	if (!((*fgrs)->fig = ft_strsub(str, i, j - i + 1)))
-		return (ERROR);
-	free((void *)str);
-	return (SUCCESS);
-
-}
-
 static int	ft_list_write(t_tet **fgrs, char *buf, const char letr)
 {
 	if (ft_check_valid(buf) == ERROR)

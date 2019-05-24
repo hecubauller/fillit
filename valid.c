@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahiroko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/24 20:47:45 by ahiroko           #+#    #+#             */
+/*   Updated: 2019/05/24 20:47:48 by ahiroko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int	ft_cntcns_counter(const char *buf, int ct)
@@ -48,4 +60,3 @@ int	ft_check_valid(const char *buf)
 {
 	return (ft_sym_counter(buf) == SUCCESS ? SUCCESS : ERROR);
 }
-

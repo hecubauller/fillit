@@ -12,8 +12,6 @@
 
 #include "fillit.h"
 
-
-
 char 	*ft_solver(t_tet *fgrs)
 {
 	char 	*matrix;
