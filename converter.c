@@ -6,7 +6,7 @@
 /*   By: ahiroko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 20:45:45 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/24 20:45:51 by ahiroko          ###   ########.fr       */
+/*   Updated: 2019/05/25 00:18:09 by huller           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,16 @@ int			ft_convert(char *buf, t_tet **fgrs)
 	i = -1;
 	if (ft_writer(&str, buf) == ERROR)
 		return (ERROR);
-	while (str[++i] && str[i + 1] != '#')
-		;
-	if (str[i + 1] == '#' && str[i + 5] == '#')
+	while (str[i + 1] != '#')
+		i++;
+//	if (str[i + 3] == '#' && str[i - 1] != '.') // попытка создать if  для последней фигурки, которая должка выводиться как: ..#.###
+//		i--;
+	if(str[i + 3] == '#')
+		i++;
+	if (((str[i + 1] == '#') && (str[i + 4] == '#' \
+	|| str[i + 8] == '#')) || str[i] == '#')
+		i = i;
+	else
 		i++;
 	j = i;
 	while (str[++j])
@@ -72,6 +79,7 @@ int			ft_convert(char *buf, t_tet **fgrs)
 		;
 	if (!((*fgrs)->fig = ft_strsub(str, i, j - i + 1)))
 		return (ERROR);
+	printf("%s\n", (*fgrs)->fig);
 	free((void *)str);
 	return (SUCCESS);
 }
