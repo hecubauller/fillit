@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include <fcntl.h>
+#include <stdio.h> ////////////////
 
 # define ENDL '\n'
 # define FIGR 21
@@ -35,19 +36,18 @@ typedef struct		s_cnt
 
 typedef struct		s_tet
 {
-	char			**fig;
+	char			*fig;
 	char			let;
-	char			x;
-	char			y;
+	int 			ind[4];
 	struct s_tet	*prev;
 	struct s_tet	*next;
 }					t_tet;
 
-void				ft_remove_node(t_tet *fgrs);
+void				ft_remove_node(t_tet **fgrs);
 void				ft_get_first_figure(t_tet **fgrs);
 t_tet				*ft_new_node(t_tet *next, t_tet *prev, char letr);
 int					ft_check_valid(const char *buf);
 int					ft_reader(const char *src, t_tet **fgrs, int argc);
-char				*ft_convert(char *buf, t_tet **fgrs);
+char				*ft_solver(t_tet *fgrs);
 
 #endif

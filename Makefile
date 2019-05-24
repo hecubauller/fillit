@@ -2,6 +2,9 @@ NAME = fillit
 
 SRCS = 	fillit.c \
 		valid.c \
+		reader.c \
+		node_controls.c \
+		solver.c \
 
 OBJS = $(SRCS:.c=.o)
 
