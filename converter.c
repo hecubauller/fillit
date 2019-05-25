@@ -6,7 +6,7 @@
 /*   By: ahiroko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 20:45:45 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/25 00:18:09 by huller           ###   ########.fr       */
+/*   Updated: 2019/05/25 22:30:34 by huller           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,47 @@ int			ft_convert(char *buf, t_tet **fgrs)
 	i = -1;
 	if (ft_writer(&str, buf) == ERROR)
 		return (ERROR);
-	while (str[i + 1] != '#')
-		i++;
-//	if (str[i + 3] == '#' && str[i - 1] != '.') // попытка создать if  для последней фигурки, которая должка выводиться как: ..#.###
+//	while (str[i + 1] != '#')
+//		i++;
+//	if (str[i + 3] == '#' && str[i - 1] == '.')
 //		i--;
-	if(str[i + 3] == '#')
-		i++;
-	if (((str[i + 1] == '#') && (str[i + 4] == '#' \
-	|| str[i + 8] == '#')) || str[i] == '#')
-		i = i;
-	else
-		i++;
-	j = i;
-	while (str[++j])
-		;
-	while (str[--j] != '#')
-		;
+//	if(str[i + 3] == '#')
+//		i++;
+//	if (((str[i + 1] == '#') && (str[i + 4] == '#' \
+//	|| str[i + 8] == '#')) || str[i] == '#')
+//		i = i;
+//	else
+//		i++;
+//	if (str[i + 5] == '#' && str[i + 4] == '#' && str[i + 1] == '#' && str[i] != '#')
+//		i--;
+//	j = i;
+//	while (str[++j])
+//		;
+//	while (str[--j] != '#')
+//		;
+
+while (str[i] != '#')
+	++i;
+while (str[i] == '.' && str[i + 4] == '#' && i)
+	--i;
+while (str[i] == '#' && str[i + 4] == '.' && i && str[i + 3] != '#')
+	--i;
+if (str[i] == '#' && str[i + 4] == '#' && (str[i + 7] == '#' || str[i + 3] == '#')) // спец условие для J
+	i--;
+if (str[i] == '.' && str[i + 4] == '.' && str[i + 8] != '#')
+	i++;
+j = i;
+while (str[++j])
+	;
+while (str[--j] != '#')
+	;
+
+
+
+
+
+
+
 	if (!((*fgrs)->fig = ft_strsub(str, i, j - i + 1)))
 		return (ERROR);
 	printf("%s\n", (*fgrs)->fig);
