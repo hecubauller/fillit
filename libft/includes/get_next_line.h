@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 # include <fcntl.h>
 # include <stdlib.h>
-# include "libft/libft.h"
+# include "libft.h"
 
 # define BUFF_SIZE 15
 # define MAX_FD_COUNT 10240

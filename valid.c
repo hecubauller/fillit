@@ -12,18 +12,18 @@
 
 #include "fillit.h"
 
-int	ft_cntcns_counter(const char *buf, int ct)
+int	ft_cnt_counter(const char *buf, int ct)
 {
 	int connections;
 
 	connections = 0;
-	if (buf[ct + 5] == '#')
+	if (ct + 5 <= 20 && buf[ct + 5] == '#')
 		connections++;
-	if (buf[ct - 5] == '#')
+	if (ct - 5 >= 0 && buf[ct - 5] == '#')
 		connections++;
-	if (buf[ct + 1] == '#')
+	if (ct + 1 <= 20 && buf[ct + 1] == '#')
 		connections++;
-	if (buf[ct - 1] == '#')
+	if (ct - 1 >= 0 && buf[ct - 1] == '#')
 		connections++;
 	return (connections);
 }
@@ -45,7 +45,7 @@ int	ft_sym_counter(const char *buf)
 		else if (buf[valid.ct] == '#')
 		{
 			valid.hashs++;
-			valid.connections += ft_cntcns_counter(buf, valid.ct);
+			valid.connections += ft_cnt_counter(buf, valid.ct);
 		}
 		else if (buf[valid.ct] == '\n')
 			valid.nw_lns++;

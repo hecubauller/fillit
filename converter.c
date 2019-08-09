@@ -6,77 +6,60 @@
 /*   By: ahiroko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 20:45:45 by ahiroko           #+#    #+#             */
-/*   Updated: 2019/05/26 00:25:42 by huller           ###   ########.fr       */
+/*   Updated: 2019/06/02 20:28:43 by huller           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static void	ft_clr_buff(char *buf)
+static void	ft_move(t_tet **fgrs)
 {
-	int i;
-	int j;
+	int ct;
+	int ct2;
+	int res_x;
+	int res_y;
 
-	i = -1;
-	j = 0;
-	while (buf[j] && buf[j] != ENDL)
-		j++;
-	while (buf[++j])
-		buf[++i] = buf[j];
-	while (buf[j])
+	ct = -1;
+	ct2 = -1;
+	res_x = 4;
+	res_y = 4;
+	while (++ct < 4)
 	{
-		buf[j] = 0;
-		j++;
+		if (res_x > (*fgrs)->x[ct])
+			res_x = (*fgrs)->x[ct];
+		if (res_y > (*fgrs)->y[ct])
+			res_y = (*fgrs)->y[ct];
 	}
-}
-
-static int	ft_writer(char **str, char *buf)
-{
-	int		k;
-	char	*test;
-
-	k = 0;
-	*str = ft_memalloc(1);
-	while (++k < 5)
+	while (--ct > -1)
 	{
-		if (!(test = ft_strchrdup(buf, ENDL)))
-			return (ERROR);
-		if (!(*str = ft_strjoinfree(*str, test, 1)))
-		{
-			free(test);
-			return (ERROR);
-		}
-		free(test);
-		ft_clr_buff(buf);
+		(*fgrs)->x[ct] -= res_x;
+		(*fgrs)->y[ct] -= res_y;
 	}
-	return (SUCCESS);
 }
 
 int			ft_convert(char *buf, t_tet **fgrs)
 {
-	int		i;
-	int		j;
-	char	*str;
+	t_cnv	conv;
 
-	i = -1;
-	j = 21;
-	if (ft_writer(&str, buf) == ERROR)
-		return (ERROR);
-	while (str[i] != '#')
-		++i;
-	while (str[i] == '.' && str[i + 4] == '#' && i)
-		--i;
-	while (str[i] == '#' && str[i + 4] == '.' && i && str[i + 3] != '#')
-		--i;
-	if (str[i] == '#' && str[i + 4] == '#'
-		&& (str[i + 7] == '#' || str[i + 3] == '#'))
-		i--;
-	if (str[i] == '.' && str[i + 4] == '.' && str[i + 8] != '#')
-		i++;
-	while (str[--j] != '#')
-		;
-	if (!((*fgrs)->fig = ft_strsub(str, i, j - i + 1)))
-		return (ERROR);
-	free((void *)str);
+	conv.ct = -1;
+	conv.i = -1;
+	conv.i2 = 0;
+	conv.x_i = 0;
+	conv.y_i = 0;
+	while (++conv.ct < 20)
+	{
+		conv.i++;
+		if (buf[conv.ct] == ENDL)
+		{
+			conv.i = -1;
+			conv.i2++;
+		}
+		if (buf[conv.ct] == '#')
+		{
+			(*fgrs)->x[conv.x_i++] = conv.i;
+			(*fgrs)->y[conv.y_i++] = conv.i2;
+		}
+	}
+	ft_move(fgrs);
 	return (SUCCESS);
 }

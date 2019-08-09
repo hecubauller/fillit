@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-static int	ft_list_write(t_tet **fgrs, char *buf, const char letr)
+static int	ft_list_write(t_tet **fgrs, char *buf, const char let)
 {
 	if (ft_check_valid(buf) == ERROR)
 	{
@@ -20,39 +20,35 @@ static int	ft_list_write(t_tet **fgrs, char *buf, const char letr)
 		return (ERROR);
 	}
 	if (!(*fgrs))
-		*fgrs = ft_new_node(NULL, NULL, letr);
+		*fgrs = ft_new_node(NULL, NULL, let);
 	else
 	{
-		(*fgrs)->next = ft_new_node(NULL, *fgrs, letr);
+		(*fgrs)->next = ft_new_node(NULL, *fgrs, let);
 		*fgrs = (*fgrs)->next;
 	}
-	if (ft_convert(buf, fgrs) == ERROR)
-	{
-		ft_remove_node(fgrs);
-		return (ERROR);
-	}
+	ft_convert(buf, fgrs);
 	return (SUCCESS);
 }
 
 static int	ft_file_check_n_read(t_tet **fgrs, int fd)
 {
 	int		status;
-	char	letr;
+	char	let;
 	char	buf[21];
 
-	letr = 'A' - 1;
+	let = 'A' - 1;
 	while ((status = read(fd, buf, FIGR)))
 	{
 		buf[status] = '\0';
-		if (status == ERROR || ++letr > 'Z')
+		if (status == ERROR || ++let > 'Z')
 		{
 			ft_remove_node(fgrs);
 			return (ERROR);
 		}
-		if (ft_list_write(fgrs, buf, letr) == ERROR)
+		if (ft_list_write(fgrs, buf, let) == ERROR)
 			return (ERROR);
 	}
-	return ((buf[0] == '\n' || buf[0] == '\0') ? ERROR : SUCCESS);
+	return ((buf[0] == '\n' || buf[20] != '\0') ? ERROR : SUCCESS);
 }
 
 int			ft_reader(const char *src, t_tet **fgrs, int argc)
